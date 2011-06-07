@@ -1,0 +1,23 @@
+form(name='qurl', id='qurl', action='#')
+  input(type='hidden', name='service', value='amqp')
+  input(type='hidden', name='endpoint', value='publisher')
+
+  label(for='server') Server
+  input(name='server', id='server')
+  br
+
+  label(for='queue') Queue
+  input(name='queue', id='queue')
+  br
+
+  label(for='exchange') Exchange
+  input(name='exchange', id='exchange')
+  br
+
+  label(for='routing_key') Routing Key
+  input(name='routing_key', id='routing_key')
+  br
+
+  input(type='button', id='publish', onclick='javascript:qurl_publish();', value='Publish')
+
+#output

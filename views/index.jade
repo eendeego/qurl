@@ -1,0 +1,11 @@
+h1= title
+p Welcome to #{title}
+// TODO move html below to the layout / some partial
+h2 I want a:
+- each service, slug in services
+  h3= service.name
+  a(href='/' + slug + '/publisher') Publisher
+  // FIXME insert a regular whitespace
+  &nbsp;
+  a(href='/' + slug + '/subscriber') Subscriber
+#server

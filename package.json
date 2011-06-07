@@ -1,0 +1,30 @@
+{
+    "name": "qurl"
+  , "description" : "Like hurl but for queues."
+  , "author" : "Luis Reis <luis.m.reis@gmail.com>"
+  , "contributors" : ["Telmo Costa <telmo.ferreira.costa@gmail.com>"]
+  , "version": "0.0.1"
+  , "licenses": [
+    { "type": "MIT"
+    , "url": "https://github.com/sstephenson/project/raw/master/LICENSE"
+    }]
+  , "repository":
+    { "type": "git"
+    , "url": "https://github.com/luismreis/qurl.git"
+    }
+  , "dependencies":
+    { "jade": ">= 0.0.1"
+    , "express": ">=2.3.10"
+    , "socket.io": ">=0.6.18"
+    , "hiredis": ">=0.1.10"
+    , "redis": ">=0.6.0"
+    , "amqp": ">=0.0.6"
+    }
+  , "devDependencies":
+    { "nodeunit": ">=0.5.0"
+    , "coffee-script": ">=1.1.1"
+    }
+  , "engines":
+    { "node": "~0.4"
+    }
+}

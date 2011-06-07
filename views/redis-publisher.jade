@@ -1,0 +1,19 @@
+form(name='qurl', id='qurl', action='#')
+  input(type='hidden', name='service', value='redis')
+  input(type='hidden', name='endpoint', value='publisher')
+
+  label(for='server') Server
+  input(name='server', id='server', value='localhost')
+  br
+
+  label(for='channel') Channel
+  input(name='channel', id='channel', value='aaaa')
+  br
+
+  label(for='message') Message
+  textarea(name='message', id='message') bbbb
+  br
+
+  input(type='button', id='publish', onclick='javascript:qurl_publish();', value='Publish')
+
+#output

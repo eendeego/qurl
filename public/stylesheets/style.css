@@ -1,0 +1,33 @@
+body {
+  padding: 10px;
+  font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+label {
+  width: 10em;
+  display: inline-block;
+}
+
+input {
+  width: 20em;
+}
+
+.event.connect {
+  font-size: 80%;
+  color: #008000;
+}
+
+.event.disconnect {
+  font-size: 80%;
+  color: #800000;
+}
+
+.hint {
+  font-size: 80%;
+  font-style: italic;
+  color: #c0c0c0;
+}
