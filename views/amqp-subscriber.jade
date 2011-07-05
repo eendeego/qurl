@@ -3,19 +3,31 @@ form(name='qurl', id='qurl', action='#')
   input(type='hidden', name='endpoint', value='subscriber')
 
   label(for='server') Server
-  input(name='server', id='server')
+  input(name='server', id='server', value='localhost')
   br
 
-  label(for='queue') Queue
-  input(name='queue', id='queue')
+  label(for='login') Login
+  input(name='login', id='login', value='guest')
+  br
+
+  label(for='password') Password
+  input(type='password', name='password', id='password', value='guest')
+  br
+
+  label(for='vhost') VHost
+  input(type='vhost', name='vhost', id='vhost', value='/')
   br
 
   label(for='exchange') Exchange
-  input(name='exchange', id='exchange')
+  input(name='exchange', id='exchange', value='qurl-exchange')
+  br
+
+  label(for='queue') Queue
+  input(name='queue', id='queue', value='qurl-queue')
   br
 
   label(for='binding_key') Binding Key
-  input(name='binding_key', id='binding_key')
+  input(name='binding_key', id='binding_key', value='#')
   br
 
   input(type='button', id='subscribe', onclick='javascript:qurl_subscribe();', value='Subscribe')

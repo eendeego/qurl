@@ -12,8 +12,10 @@ label {
   display: inline-block;
 }
 
-input {
+input,
+textarea {
   width: 20em;
+  vertical-align: top;  
 }
 
 .event.connect {
