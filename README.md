@@ -9,13 +9,9 @@ qurl is a queue publisher / subscriber for queueing systems in the same spirit a
 
 ## Supported queuing systems
 
-### redis
+### redis, AMQP
 
 Pub/Sub working, with subscriptions per channel(s) and/or pattern(s)
-
-### AMQP
-
-(Scaffolding only)
 
 ## Planned support for
 
