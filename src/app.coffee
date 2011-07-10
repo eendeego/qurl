@@ -1,94 +1,88 @@
-var sys = require('sys');
-/**
- * Module dependencies.
- */
+sys = require('sys')
 
-var express     = require('express'),
-    io          = require('socket.io'),
-    querystring = require('querystring'),
-    util        = require('util'),
-    amqp        = require('./qurl_amqp'),
-    redis       = require('./qurl_redis');
+#
+# Module dependencies.
+#
 
-var app = module.exports = express.createServer();
+express     = require('express')
+io          = require('socket.io')
+querystring = require('querystring')
+util        = require('util')
 
-// Exception catching
-process.on('uncaughtException', function(err) {
-  console.log('Caught exception: ' + err.message + '\n' + err.stack);
-});
+amqp        = require('./qurl_amqp')
+redis       = require('./qurl_redis')
 
-// Configuration
+app = module.exports = express.createServer()
 
-app.configure(function(){
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
-  app.use(express.bodyParser());
-  app.use(express.methodOverride());
-  app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-});
+# Exception catching
+process.on 'uncaughtException', (err) ->
+  console.log "Caught exception: #{err.message}\n#{err.stack}"
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); 
-});
+# Configuration
 
-app.configure('production', function(){
-  app.use(express.errorHandler()); 
-});
+app.configure () ->
+  app.set 'views', __dirname + '/../views'
+  app.set 'view engine', 'jade'
+  app.use express.bodyParser()
+  app.use express.methodOverride()
+  app.use app.router
+  app.use express.static(__dirname + '/../public')
 
-services = { amqp : {name: 'AMQP', module: amqp },
-             redis : {name: 'redis', module: redis } }
+app.configure 'development', () ->
+  app.use express.errorHandler({ dumpExceptions: true, showStack: true })
 
-// Routes
+app.configure 'production', () ->
+  app.use express.errorHandler()
 
-app.get('/', function(req, res) {
-  res.render('index', {
+services =
+  amqp: { name: 'AMQP', module: amqp }
+  redis: { name: 'redis', module: redis }
+
+# Routes
+
+app.get '/', (req, res) ->
+  res.render 'index', {
     title: 'Qurl',
     services: services,
-    service: '-' // FIXME Remove this from the layout
-  });
-});
+    service: '-' # FIXME Remove this from the layout
+  }
 
-app.get('/:service/publisher', function(req, res) {
-  var service = req.params.service;
-  res.render(service + '-' + 'publisher', {
-    title: 'Qurl - ' + services[service].name + ' - Publisher',
+app.get '/:service/publisher', (req, res) ->
+  service = req.params.service
+  res.render "#{service}-publisher", {
+    title: "Qurl - #{services[service].name} - Publisher",
     services: services,
     service: service
-  });
-});
+  }
 
-app.get('/:service/subscriber', function(req, res) {
-  var service = req.params.service;
-  res.render(service + '-' + 'subscriber', {
-    title: 'Qurl - ' + services[service].name + ' - Subscriber',
+app.get '/:service/subscriber', (req, res) ->
+  service = req.params.service
+  res.render "#{service}-subscriber", {
+    title: "Qurl - #{services[service].name} - Subscriber",
     services: services,
     service: service
-  });
-});
+  }
 
-// Socket.io
+# Socket.io
 
-var socket = io.listen(app);
+socket = io.listen(app)
 
-socket.on('connection', function(client) {
-  var endpoint = null;
+socket.on 'connection', (client) ->
+  endpoint = null;
 
-  client.on('message', function(message) {
-    if(message.type == 'configure') {
-      endpoint = new services[message.service].module[message.endpoint]();
-      endpoint.configure(message.configuration);
-      endpoint.connect(client);
-    } else if(message.type == 'message') {
-      endpoint.publish(message.data);
-    } else if(message.type == 'disconnect') {
-      endpoint.disconnect();
-    }
-  });
-  client.on('disconnect', function() {
-    endpoint.disconnect();
-  });
-});
+  client.on 'message', (message) ->
+    if message.type == 'configure'
+      endpoint = new services[message.service].module[message.endpoint]()
+      endpoint.configure message.configuration
+      endpoint.connect client
+    else if message.type == 'message'
+      endpoint.publish message.data
+    else if message.type == 'disconnect'
+      endpoint.disconnect()
 
-app.listen(3000);
-console.log("Express server listening on port %d", app.address().port);
+  client.on 'disconnect', () ->
+    endpoint.disconnect()
+
+
+app.listen 3000
+console.log "Express server listening on port %d", app.address().port

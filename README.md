@@ -31,4 +31,4 @@ Pub/Sub working, with subscriptions per channel(s) and/or pattern(s)
 
 ## Running (for now)
 
-    node app.js
+    node lib/app.js

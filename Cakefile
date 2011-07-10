@@ -31,9 +31,9 @@ task 'build', 'Compile CoffeeScript source files', ->
 task 'watch', 'Recompile CoffeeScript source files when modified', ->
   build true
 
-task 'test', 'Run the test suite', ->
-  build ->
-    require.paths.unshift __dirname + "/lib"
-    {reporters} = require 'nodeunit'
-    process.chdir __dirname
-    reporters.default.run ['test']
+# task 'test', 'Run the test suite', ->
+#   build ->
+#     require.paths.unshift __dirname + "/lib"
+#     {reporters} = require 'nodeunit'
+#     process.chdir __dirname
+#     reporters.default.run ['test']
