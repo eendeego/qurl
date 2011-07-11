@@ -3,9 +3,9 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/' + service + '.css')
+    link(rel='stylesheet', href='/stylesheets/modules/' + service + '.css')
   body!= body
     script(src='/javascripts/jquery.min.js')
     script(src='/javascripts/socket.io.min.js')
-    script(src='/javascripts/' + service + '.js')
+    script(src='/javascripts/modules/' + service + '.js')
     script(src='/javascripts/app.js')

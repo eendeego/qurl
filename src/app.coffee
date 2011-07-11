@@ -9,8 +9,8 @@ io          = require('socket.io')
 querystring = require('querystring')
 util        = require('util')
 
-amqp        = require('./qurl_amqp')
-redis       = require('./qurl_redis')
+amqp        = require('./modules/amqp/main')
+redis       = require('./modules/redis/main')
 
 app = module.exports = express.createServer()
 
@@ -49,7 +49,7 @@ app.get '/', (req, res) ->
 
 app.get '/:service/publisher', (req, res) ->
   service = req.params.service
-  res.render "#{service}-publisher", {
+  res.render "modules/#{service}/publisher", {
     title: "Qurl - #{services[service].name} - Publisher",
     services: services,
     service: service
@@ -57,7 +57,7 @@ app.get '/:service/publisher', (req, res) ->
 
 app.get '/:service/subscriber', (req, res) ->
   service = req.params.service
-  res.render "#{service}-subscriber", {
+  res.render "modules/#{service}/subscriber", {
     title: "Qurl - #{services[service].name} - Subscriber",
     services: services,
     service: service
