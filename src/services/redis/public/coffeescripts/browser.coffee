@@ -1,16 +1,13 @@
-function layoutMessage(message) {
-  // TODO HTML Sanitizing
+layoutMessage = (message) ->
+  # TODO HTML Sanitizing
 
-  var result = "<div class='message'><div class='meta'>" + 
-    "<div class='channel' title='Channel'>" + message.channel + "</div>";
+  result = "<div class='message'><div class='meta'>" +
+    "<div class='channel' title='Channel'>#{message.channel}</div>"
 
-  if(message.pattern) {
-    result += "<div class='pattern' title='Pattern'>" + message.pattern + "</div>";
-  }
+  if message.pattern
+    result += "<div class='pattern' title='Pattern'>#{message.pattern}</div>"
 
-  result +=
+  result +
     "</div>" +
-    "<div class='payload'>" + message.payload + "</div>" +
-    "</div>";
-  return result;
-}
+    "<div class='payload'>#{message.payload}</div>" +
+    "</div>"

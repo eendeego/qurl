@@ -1,5 +1,4 @@
-function layoutMessage(message) {
-  // TODO Headers
-  // TODO HTML Sanitizing
-  return "<div class='message'>" + message.payload + "</div>";
-}
+layoutMessage = (message) ->
+  # TODO Headers
+  # TODO HTML Sanitizing
+  "<div class='message'>#{message.payload}</div>"
