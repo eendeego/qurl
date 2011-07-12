@@ -1,0 +1,35 @@
+form(name='qurl', id='qurl', action='#')
+  input(type='hidden', name='service', value='amqp')
+  input(type='hidden', name='endpoint', value='publisher')
+
+  label(for='server') Server (hostname:port)
+  input(name='server', id='server', value='localhost')
+  br
+
+  label(for='login') Login
+  input(name='login', id='login', value='guest')
+  br
+
+  label(for='password') Password
+  input(type='password', name='password', id='password', value='guest')
+  br
+
+  label(for='vhost') VHost
+  input(type='vhost', name='vhost', id='vhost', value='/')
+  br
+
+  label(for='exchange') Exchange
+  input(name='exchange', id='exchange', value='qurl-exchange')
+  br
+
+  label(for='routing_key') Routing Key
+  input(name='routing_key', id='routing_key', value='qurl.routing.key')
+  br
+
+  label(for='message') Message
+  textarea(id='message', name='message') Hello world.
+  br
+
+  input(type='button', id='publish', onclick='javascript:qurl_publish();', value='Publish')
+
+#output

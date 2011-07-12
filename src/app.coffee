@@ -49,7 +49,7 @@ app.get '/', (req, res) ->
 
 app.get '/:service/publisher', (req, res) ->
   service = req.params.service
-  res.render "modules/#{service}/publisher", {
+  res.render "s/#{service}/publisher", {
     title: "Qurl - #{services[service].name} - Publisher",
     services: services,
     service: service
@@ -57,7 +57,7 @@ app.get '/:service/publisher', (req, res) ->
 
 app.get '/:service/subscriber', (req, res) ->
   service = req.params.service
-  res.render "modules/#{service}/subscriber", {
+  res.render "s/#{service}/subscriber", {
     title: "Qurl - #{services[service].name} - Subscriber",
     services: services,
     service: service
