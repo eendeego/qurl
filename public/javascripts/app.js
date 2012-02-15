@@ -34,8 +34,7 @@ var qurl = (function () {
     publish : function() {
       //alert('socket!?: ' + socket);
       if(socket === null) {
-        socket = new io.Socket();
-        socket.connect();
+        socket = io.connect();
         socket.on('connect', function() {
           appendEvent({ type: 'connect', message: 'Connect' });
           var configuration = $('#qurl').serializeJSON();
@@ -64,8 +63,7 @@ var qurl = (function () {
       if(socket !== null) {
         self.unsubscribe();
       }
-      socket = new io.Socket();
-      socket.connect();
+      socket = io.connect();
       socket.on('connect', function() {
         appendEvent({ type: 'connect', message: 'Connect' });
         var configuration = $('#qurl').serializeJSON();

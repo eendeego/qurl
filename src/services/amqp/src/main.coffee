@@ -1,4 +1,4 @@
-sys = require 'sys'
+sys = require 'util'
 util = require 'util'
 amqp = require 'amqp'
 
