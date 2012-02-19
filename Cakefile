@@ -3,7 +3,6 @@
 
 util          = require 'util'
 fs            = require 'fs'
-{print}       = require 'sys'
 {spawn, exec} = require 'child_process'
 
 copy_module_assets = (service, callback) ->
@@ -13,7 +12,7 @@ copy_module_assets = (service, callback) ->
     "mkdir -p views/s/#{service}"
     "cp src/services/#{service}/views/* views/s/#{service}/"
   ].join(' && '), (err, stdout, stderr) ->
-    if err then print stderr else console.log "Assets for #{service} copied."
+    if err then console.log stderr else console.log "Assets for #{service} copied."
     callback?()
   )
 
@@ -39,16 +38,16 @@ build = (watch, callback) ->
 
       for pair in files
         coffee = spawn 'coffee', options.concat(pair)
-        coffee.stdout.on 'data', (data) -> print data.toString()
-        coffee.stderr.on 'data', (data) -> print data.toString()
+        coffee.stdout.on 'data', (data) -> console.log data.toString()
+        coffee.stderr.on 'data', (data) -> console.log data.toString()
         coffee.on 'exit', (status) -> callback?() if (--coffees is 0)
 
 task 'docs', 'Generate annotated source code with Docco', ->
   fs.readdir 'src', (err, contents) ->
     files = ("src/#{file}" for file in contents when /\.coffee$/.test file)
     docco = spawn 'docco', files
-    docco.stdout.on 'data', (data) -> print data.toString()
-    docco.stderr.on 'data', (data) -> print data.toString()
+    docco.stdout.on 'data', (data) -> console.log data.toString()
+    docco.stderr.on 'data', (data) -> console.log data.toString()
     docco.on 'exit', (status) -> callback?() if status is 0
 
 task 'build', 'Compile CoffeeScript source files', ->
