@@ -1,4 +1,5 @@
 var layoutMessage;
+
 layoutMessage = function(message) {
   var result;
   result = "<div class='message'><div class='meta'>" + ("<div class='channel' title='Channel'>" + message.channel + "</div>");

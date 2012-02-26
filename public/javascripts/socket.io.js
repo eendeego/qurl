@@ -88,7 +88,7 @@
     io.util.merge(options, details);
 
     if (options['force new connection'] || !io.sockets[uuri]) {
-      socket = io.connect(options);
+      socket = new io.Socket(options);
     }
 
     if (!options['force new connection'] && socket) {

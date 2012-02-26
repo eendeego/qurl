@@ -60,10 +60,10 @@ redisSubscriber = () ->
     redis_client = createRedisClient(config.server)
 
     redis_client.on "message", (channel, message) ->
-      client.send { type: "message", payload: message, channel: channel }
+      client.emit "message", { payload: message, channel: channel }
 
     redis_client.on "pmessage", (pattern, channel, message) ->
-      client.send { type: "message", payload: message, channel: channel, pattern: pattern }
+      client.send "message", { payload: message, channel: channel, pattern: pattern }
 
     if config.channels.trim() != ''
       console.log "subscribing: #{config.channels}"
