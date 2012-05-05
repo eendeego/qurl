@@ -26,21 +26,19 @@ var qurl = (function () {
   }
 
   function sendMessage() {
-    socket.send({ type: 'message',
-                  data: $('#qurl').serializeJSON()});
+    socket.emit('message', { data: $('#qurl').serializeJSON() });
   }
 
   return {
     publish : function() {
       //alert('socket!?: ' + socket);
       if(socket === null) {
-        socket = new io.Socket();
-        socket.connect();
+        socket = io.connect('http://localhost');
         socket.on('connect', function() {
           appendEvent({ type: 'connect', message: 'Connect' });
           var configuration = $('#qurl').serializeJSON();
-          socket.send({ type: 'configure',
-                        service: configuration.service,
+          socket.emit('configure',
+                      { service: configuration.service,
                         endpoint: configuration.endpoint,
                         configuration: configuration });
           sendMessage();
@@ -64,20 +62,17 @@ var qurl = (function () {
       if(socket !== null) {
         self.unsubscribe();
       }
-      socket = new io.Socket();
-      socket.connect();
+      socket = io.connect('http://localhost');
       socket.on('connect', function() {
         appendEvent({ type: 'connect', message: 'Connect' });
         var configuration = $('#qurl').serializeJSON();
-        socket.send({ type: 'configure',
-                      service: configuration.service,
+        socket.emit('configure',
+                    { service: configuration.service,
                       endpoint: configuration.endpoint,
                       configuration: configuration });
       })
       socket.on('message', function(message) {
-        if(message.type == 'message') {
-          appendMessage(message);
-        }
+        appendMessage(message);
       })
       socket.on('disconnect', function() {
         appendEvent({ type: 'disconnect', message: 'Disconnect' });
