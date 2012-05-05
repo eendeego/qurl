@@ -1,4 +1,3 @@
-sys = require 'sys'
 util = require 'util'
 amqp = require 'amqp'
 
@@ -123,8 +122,7 @@ amqpSubscriber = () ->
 
           console.log "subscribing to queue..."
           q.subscribe (message, headers, deliveryInfo) ->
-            client.send
-              type: "message" 
+            client.emit "message",
               payload: message.data.toString()
 
   self.disconnect = () ->

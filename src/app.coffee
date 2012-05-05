@@ -1,16 +1,14 @@
-sys = require('sys')
-
 #
 # Module dependencies.
 #
 
 express     = require('express')
-io          = require('socket.io')
+socket_io   = require('socket.io')
 querystring = require('querystring')
 util        = require('util')
 
-amqp        = require('./modules/amqp/main')
-redis       = require('./modules/redis/main')
+amqp        = require('./services/amqp/main')
+redis       = require('./services/redis/main')
 
 app = module.exports = express.createServer()
 
@@ -65,24 +63,21 @@ app.get '/:service/subscriber', (req, res) ->
 
 # Socket.io
 
-socket = io.listen(app)
+io = socket_io.listen(app)
 
-socket.on 'connection', (client) ->
+io.sockets.on 'connection', (socket) ->
   endpoint = null;
 
-  client.on 'message', (message) ->
-    if message.type == 'configure'
-      endpoint = new services[message.service].module[message.endpoint]()
-      endpoint.configure message.configuration
-      endpoint.connect client
-    else if message.type == 'message'
-      endpoint.publish message.data
-    else if message.type == 'disconnect'
-      endpoint.disconnect()
+  socket.on 'configure', (message) ->
+    endpoint = new services[message.service].module[message.endpoint]()
+    endpoint.configure message.configuration
+    endpoint.connect socket
 
-  client.on 'disconnect', () ->
+  socket.on 'message', (message) ->
+    endpoint.publish message.data
+
+  socket.on 'disconnect', (message) ->
     endpoint.disconnect()
-
 
 app.listen 3000
 console.log "Express server listening on port %d", app.address().port
