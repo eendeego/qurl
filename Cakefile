@@ -29,12 +29,12 @@ build = (watch, callback) ->
     files = [['lib'].concat("src/#{src}" for src in contents when !/^services/.test(src))]
 
     fs.readdir 'src/services', (err, contents) ->
-      coffees = 2 * contents.length + 1
-
       copy_module_assets(service) for service in contents
 
       files = files.concat(["lib/services/#{file}", "src/services/#{file}/src"] for file in contents)
       files = files.concat(["public/javascripts/s/#{file}", '-b', "src/services/#{file}/public/coffeescripts"] for file in contents)
+
+      coffees = files.length
 
       for pair in files
         coffee = spawn 'coffee', options.concat(pair)
