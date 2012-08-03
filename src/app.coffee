@@ -3,20 +3,20 @@
 #
 
 express     = require('express')
+http        = require('http')
 socket_io   = require('socket.io')
 querystring = require('querystring')
 util        = require('util')
-
 amqp        = require('./services/amqp/main')
 redis       = require('./services/redis/main')
-
-app = module.exports = express.createServer()
 
 # Exception catching
 process.on 'uncaughtException', (err) ->
   console.log "Caught exception: #{err.message}\n#{err.stack}"
 
 # Configuration
+
+app = module.exports = express()
 
 app.configure () ->
   app.set 'views', __dirname + '/../views'
@@ -61,9 +61,11 @@ app.get '/:service/subscriber', (req, res) ->
     service: service
   }
 
+server = http.createServer app
+
 # Socket.io
 
-io = socket_io.listen(app)
+io = socket_io.listen server
 
 io.sockets.on 'connection', (socket) ->
   endpoint = null;
@@ -79,5 +81,5 @@ io.sockets.on 'connection', (socket) ->
   socket.on 'disconnect', (message) ->
     endpoint.disconnect()
 
-app.listen 3000
-console.log "Express server listening on port %d", app.address().port
+server.listen 3000
+console.log "Express server listening on port %d", server.address().port
