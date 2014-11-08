@@ -1,103 +1,107 @@
+(function (exports) {
+  // Comment on http://api.jquery.com/serializeArray/
+  (function($) {
+    $.fn.serializeJSON = function() {
+      var json = {};
+      jQuery.map($(this).serializeArray(), function(n, i) {
+        json[n['name']] = n['value'];
+      });
+      return json;
+    };
+  })(jQuery);
 
-// Comment on http://api.jquery.com/serializeArray/
-(function($) {
-  $.fn.serializeJSON=function() {
-    var json = {};
-    jQuery.map($(this).serializeArray(), function(n, i) {
-      json[n['name']] = n['value'];
-    });
-    return json;
-  };
-})(jQuery);
+  function App() {
+    var this.socket = null;
+  }
 
-var qurl = (function () {
-  var socket = null;
-
-  function appendMessage(message) {
+  App.prototype.appendMessage = function appendMessage(message) {
     $('#output').append(layoutMessage(message)).each(function(index) {
       //$(this).scrollIntoView();
     });
   }
 
-  function appendEvent(event) {
+  App.prototype.appendEvent = function appendEvent(event) {
     $('#output').append("<div class='event " + event.type +"'>" + event.message + "</div>").each(function(index) {
       //$(this).scrollIntoView();
     });
   }
 
-  function sendMessage() {
-    socket.emit('message', { data: $('#qurl').serializeJSON() });
+  App.prototype.appendMessage = function sendMessage() {
+    this.socket.emit('message', { data: $('#qurl').serializeJSON() });
   }
 
-  return {
-    publish : function() {
-      //alert('socket!?: ' + socket);
-      if(socket === null) {
-        socket = io.connect('http://localhost');
-        socket.on('connect', function() {
-          appendEvent({ type: 'connect', message: 'Connect' });
-          var configuration = $('#qurl').serializeJSON();
-          socket.emit('configure',
-                      { service: configuration.service,
-                        endpoint: configuration.endpoint,
-                        configuration: configuration });
-          sendMessage();
-        });
-        socket.on('message', function(message) {
-          if(message.type == 'message') {
-            appendMessage(message);
-          }
-        });
-        socket.on('disconnect', function() {
-          appendEvent({ type: 'disconnect', message: 'Disconnect' });
-        });
-      } else {
-        sendMessage();
-      }
+  // FIXME Replace 'http://localhost' with proper url from the navigation object
+  // FIXME Move socket.io initialization to its own function
 
-      return false;
-    },
+  App.prototype.publish = function publish() {
+    var self = this;
 
-    subscribe : function() {
-      if(socket !== null) {
-        self.unsubscribe();
-      }
-      socket = io.connect('http://localhost');
-      socket.on('connect', function() {
+    //alert('socket!?: ' + this.socket);
+    if (this.socket === null) {
+      this.socket = io.connect('http://localhost');
+
+      this.socket.on('connect', function () {
         appendEvent({ type: 'connect', message: 'Connect' });
         var configuration = $('#qurl').serializeJSON();
-        socket.emit('configure',
-                    { service: configuration.service,
-                      endpoint: configuration.endpoint,
-                      configuration: configuration });
-      })
-      socket.on('message', function(message) {
-        appendMessage(message);
-      })
-      socket.on('disconnect', function() {
-        appendEvent({ type: 'disconnect', message: 'Disconnect' });
-      })
+        self.socket.emit('configure',
+                         { service       : configuration.service,
+                           endpoint      : configuration.endpoint,
+                           configuration : configuration });
+        self.sendMessage();
+      });
 
-      return false;
-    },
+      this.socket.on('message', function(message) {
+        if(message.type == 'message') {
+          self.appendMessage(message);
+        }
+      });
 
-    unsubscribe : function() {
-      if(socket === null) {
-        appendEvent({ type: 'disconnect', message: 'Disconnect, socket is null.' });
-        return;
-      }
-
-      socket.send({ type: 'disconnect' });
-
-      socket.disconnect();
-      socket = null;
-
-      return false;
+      this.socket.on('disconnect', function() {
+        self.appendEvent({ type: 'disconnect', message: 'Disconnect' });
+      });
+    } else {
+      this.sendMessage();
     }
   };
-})();
 
-var qurl_publish = qurl.publish;
+  App.prototype.subscribe = function subscribe() {
+    var self = this;
 
-var qurl_subscribe = qurl.subscribe;
-var qurl_unsubscribe = qurl.unsubscribe;
+    if (this.socket !== null) {
+      this.unsubscribe();
+    }
+
+    this.socket = io.connect('http://localhost');
+    this.socket.on('connect', function() {
+      appendEvent({ type: 'connect', message: 'Connect' });
+      var configuration = $('#qurl').serializeJSON();
+      self.socket.emit('configure',
+                       { service       : configuration.service,
+                         endpoint      : configuration.endpoint,
+                         configuration : configuration });
+    });
+
+    this.socket.on('message', function(message) {
+      self.appendMessage(message);
+    });
+
+    this.socket.on('disconnect', function() {
+      self.appendEvent({ type: 'disconnect', message: 'Disconnect' });
+    });
+  };
+
+  App.prototype.unsubscribe = function unsubscribe() {
+    if (this.socket === null) {
+      appendEvent({
+        type    : 'disconnect',
+        message : 'Disconnect, socket is null.'
+      });
+      return;
+    }
+
+    this.socket.send({ type: 'disconnect' });
+
+    this.socket.disconnect();
+    this.socket = null;
+  }
+})(typeof exports === 'undefined' ? this['qurl'] = {} : exports);
