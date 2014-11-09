@@ -10,7 +10,7 @@
     }
     result.push('</div>',
                 '<div class="payload">', message.payload, '</div>',
-                '</div>';
+                '</div>');
 
     return result.join('');
   };

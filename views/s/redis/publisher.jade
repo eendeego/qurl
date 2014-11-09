@@ -1,19 +1,22 @@
-form(name='qurl', id='qurl', action='#')
-  input(type='hidden', name='service', value='redis')
-  input(type='hidden', name='endpoint', value='publisher')
+extends /layout
+block content
 
-  label(for='server') Server
-  input(name='server', id='server', value='localhost')
-  br
+  form(name='qurl-publisher', id='qurl-publisher', action='#')
+    input(type='hidden', name='service', value='redis')
+    input(type='hidden', name='endpoint', value='publisher')
 
-  label(for='channel') Channel
-  input(name='channel', id='channel', value='aaaa')
-  br
+    label(for='server') Server
+    input(name='server', id='server', value='localhost')
+    br
 
-  label(for='message') Message
-  textarea(name='message', id='message') bbbb
-  br
+    label(for='channel') Channel
+    input(name='channel', id='channel', value='aaaa')
+    br
 
-  input(type='button', id='publish', onclick='javascript:qurl.publish();', value='Publish')
+    label(for='message') Message
+    textarea(name='message', id='message') bbbb
+    br
 
-#output
+    input(type='button', id='publish', onclick='qurl.app.publish();', value='Publish')
+
+  #output

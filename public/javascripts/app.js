@@ -10,12 +10,16 @@
     };
   })(jQuery);
 
-  function App() {
-    var this.socket = null;
+  function byId(id) {
+    return document.getElementById(id);
   }
 
-  App.prototype.appendMessage = function appendMessage(message) {
-    $('#output').append(layoutMessage(message)).each(function(index) {
+  function App() {
+    this.socket = null;
+  }
+
+  App.prototype.appendMessage = function appendMessage(service, message) {
+    $('#output').append(window[service].layoutMessage(message)).each(function(index) {
       //$(this).scrollIntoView();
     });
   }
@@ -26,8 +30,8 @@
     });
   }
 
-  App.prototype.appendMessage = function sendMessage() {
-    this.socket.emit('message', { data: $('#qurl').serializeJSON() });
+  App.prototype.sendMessage = function sendMessage() {
+    this.socket.emit('message', { data: $('#qurl-publisher').serializeJSON() });
   }
 
   // FIXME Replace 'http://localhost' with proper url from the navigation object
@@ -35,14 +39,15 @@
 
   App.prototype.publish = function publish() {
     var self = this;
+    var configuration;
 
     //alert('socket!?: ' + this.socket);
     if (this.socket === null) {
       this.socket = io.connect('http://localhost');
 
       this.socket.on('connect', function () {
-        appendEvent({ type: 'connect', message: 'Connect' });
-        var configuration = $('#qurl').serializeJSON();
+        self.appendEvent({ type: 'connect', message: 'Connect' });
+        configuration = $('#qurl-publisher').serializeJSON();
         self.socket.emit('configure',
                          { service       : configuration.service,
                            endpoint      : configuration.endpoint,
@@ -52,7 +57,7 @@
 
       this.socket.on('message', function(message) {
         if(message.type == 'message') {
-          self.appendMessage(message);
+          self.appendMessage(configuration.service, message);
         }
       });
 
@@ -66,6 +71,7 @@
 
   App.prototype.subscribe = function subscribe() {
     var self = this;
+    var configuration;
 
     if (this.socket !== null) {
       this.unsubscribe();
@@ -73,8 +79,8 @@
 
     this.socket = io.connect('http://localhost');
     this.socket.on('connect', function() {
-      appendEvent({ type: 'connect', message: 'Connect' });
-      var configuration = $('#qurl').serializeJSON();
+      self.appendEvent({ type: 'connect', message: 'Connect' });
+      configuration = $('#qurl-subscriber').serializeJSON();
       self.socket.emit('configure',
                        { service       : configuration.service,
                          endpoint      : configuration.endpoint,
@@ -82,7 +88,7 @@
     });
 
     this.socket.on('message', function(message) {
-      self.appendMessage(message);
+      self.appendMessage(configuration.service, message);
     });
 
     this.socket.on('disconnect', function() {
@@ -104,4 +110,8 @@
     this.socket.disconnect();
     this.socket = null;
   }
+
+  // This will change a lot soon.
+  // But for now... just to have things running:
+  exports.app = new App();
 })(typeof exports === 'undefined' ? this['qurl'] = {} : exports);

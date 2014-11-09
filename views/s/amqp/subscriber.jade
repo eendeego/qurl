@@ -1,36 +1,39 @@
-form(name='qurl', id='qurl', action='#')
-  input(type='hidden', name='service', value='amqp')
-  input(type='hidden', name='endpoint', value='subscriber')
+extends /layout
+block content
 
-  label(for='server') Server
-  input(name='server', id='server', value='localhost')
-  br
+  form(name='qurl-subscriber', id='qurl-subscriber', action='#')
+    input(type='hidden', name='service', value='amqp')
+    input(type='hidden', name='endpoint', value='subscriber')
 
-  label(for='login') Login
-  input(name='login', id='login', value='guest')
-  br
+    label(for='server') Server
+    input(name='server', id='server', value='localhost')
+    br
 
-  label(for='password') Password
-  input(type='password', name='password', id='password', value='guest')
-  br
+    label(for='login') Login
+    input(name='login', id='login', value='guest')
+    br
 
-  label(for='vhost') VHost
-  input(type='vhost', name='vhost', id='vhost', value='/')
-  br
+    label(for='password') Password
+    input(type='password', name='password', id='password', value='guest')
+    br
 
-  label(for='exchange') Exchange
-  input(name='exchange', id='exchange', value='qurl-exchange')
-  br
+    label(for='vhost') VHost
+    input(type='vhost', name='vhost', id='vhost', value='/')
+    br
 
-  label(for='queue') Queue
-  input(name='queue', id='queue', value='qurl-queue')
-  br
+    label(for='exchange') Exchange
+    input(name='exchange', id='exchange', value='qurl-exchange')
+    br
 
-  label(for='binding_key') Binding Key
-  input(name='binding_key', id='binding_key', value='#')
-  br
+    label(for='queue') Queue
+    input(name='queue', id='queue', value='qurl-queue')
+    br
 
-  input(type='button', id='subscribe', onclick='javascript:qurl.subscribe();', value='Subscribe')
-  input(type='button', id='unsubscribe', onclick='javascript:qurl.unsubscribe();', value='Unsubscribe')
+    label(for='binding_key') Binding Key
+    input(name='binding_key', id='binding_key', value='#')
+    br
 
-#output
+    input(type='button', id='subscribe', onclick='qurl.app.subscribe();', value='Subscribe')
+    input(type='button', id='unsubscribe', onclick='qurl.app.unsubscribe();', value='Unsubscribe')
+
+  #output

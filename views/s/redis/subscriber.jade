@@ -1,23 +1,26 @@
-form(name='qurl', id='qurl', action='#')
-  input(type='hidden', name='service', value='redis')
-  input(type='hidden', name='endpoint', value='subscriber')
+extends /layout
+block content
 
-  label(for='server') Server
-  input(name='server', id='server', value='localhost') 
-  span.hint Use host:port for a tcp connection or /tmp/... for an unix socket
-  br
+  form(name='qurl-subscriber', id='qurl-subscriber', action='#')
+    input(type='hidden', name='service', value='redis')
+    input(type='hidden', name='endpoint', value='subscriber')
 
-  label(for='channels') Channels
-  input(name='channels', id='channels', value='aaaa')
-  span.hint Separate multiple channels with spaces
-  br
+    label(for='server') Server
+    input(name='server', id='server', value='localhost')
+    span.hint Use host:port for a tcp connection or /tmp/... for an unix socket
+    br
 
-  label(for='patterns') Patterns
-  input(name='patterns', id='patterns')
-  span.hint Separate multiple patterns with spaces
-  br
+    label(for='channels') Channels
+    input(name='channels', id='channels', value='aaaa')
+    span.hint Separate multiple channels with spaces
+    br
 
-  input(type='button', id='subscribe', onclick='javascript:qurl.subscribe();', value='Subscribe')
-  input(type='button', id='unsubscribe', onclick='javascript:qurl.unsubscribe();', value='Unsubscribe')
+    label(for='patterns') Patterns
+    input(name='patterns', id='patterns')
+    span.hint Separate multiple patterns with spaces
+    br
 
-#output
+    input(type='button', id='subscribe', onclick='qurl.app.subscribe();', value='Subscribe')
+    input(type='button', id='unsubscribe', onclick='qurl.app.unsubscribe();', value='Unsubscribe')
+
+  #output

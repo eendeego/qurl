@@ -13,6 +13,8 @@ qurl is a queue publisher / subscriber for queueing systems in the same spirit a
 
 Pub/Sub working, with subscriptions per channel(s) and/or pattern(s)
 
+*Note:* node-amqp seems to be [broken](https://github.com/postwait/node-amqp/issues/125).
+
 ## Planned support for
 
 ### 0MQ

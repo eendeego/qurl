@@ -1,11 +1,16 @@
-!!! 5
+doctype html
 html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(rel='stylesheet', href='/stylesheets/s/' + service + '/style.css')
-  body!= body
+    if service !== '-'
+      link(rel='stylesheet', href='/stylesheets/s/' + service + '/style.css')
+  body
+    #content
+    block content
+
     script(src='/javascripts/jquery.min.js')
-    script(src='/javascripts/socket.io.min.js')
-    script(src='/javascripts/s/' + service + '/browser.js')
+    script(src='/socket.io/socket.io.js')
+    if service !== '-'
+      script(src='/javascripts/s/' + service + '/browser.js')
     script(src='/javascripts/app.js')

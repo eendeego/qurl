@@ -1,35 +1,38 @@
-form(name='qurl', id='qurl', action='#')
-  input(type='hidden', name='service', value='amqp')
-  input(type='hidden', name='endpoint', value='publisher')
+extends /layout
+block content
 
-  label(for='server') Server (hostname:port)
-  input(name='server', id='server', value='localhost')
-  br
+  form(name='qurl-publisher', id='qurl-publisher', action='#')
+    input(type='hidden', name='service', value='amqp')
+    input(type='hidden', name='endpoint', value='publisher')
 
-  label(for='login') Login
-  input(name='login', id='login', value='guest')
-  br
+    label(for='server') Server (hostname:port)
+    input(name='server', id='server', value='localhost')
+    br
 
-  label(for='password') Password
-  input(type='password', name='password', id='password', value='guest')
-  br
+    label(for='login') Login
+    input(name='login', id='login', value='guest')
+    br
 
-  label(for='vhost') VHost
-  input(type='vhost', name='vhost', id='vhost', value='/')
-  br
+    label(for='password') Password
+    input(type='password', name='password', id='password', value='guest')
+    br
 
-  label(for='exchange') Exchange
-  input(name='exchange', id='exchange', value='qurl-exchange')
-  br
+    label(for='vhost') VHost
+    input(type='vhost', name='vhost', id='vhost', value='/')
+    br
 
-  label(for='routing_key') Routing Key
-  input(name='routing_key', id='routing_key', value='qurl.routing.key')
-  br
+    label(for='exchange') Exchange
+    input(name='exchange', id='exchange', value='qurl-exchange')
+    br
 
-  label(for='message') Message
-  textarea(id='message', name='message') Hello world.
-  br
+    label(for='routing_key') Routing Key
+    input(name='routing_key', id='routing_key', value='qurl.routing.key')
+    br
 
-  input(type='button', id='publish', onclick='javascript:qurl.publish();', value='Publish')
+    label(for='message') Message
+    textarea(id='message', name='message') Hello world.
+    br
 
-#output
+    input(type='button', id='publish', onclick='qurl.app.publish()', value='Publish')
+
+  #output

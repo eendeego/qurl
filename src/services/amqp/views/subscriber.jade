@@ -1,4 +1,4 @@
-form(name='qurl', id='qurl', action='#')
+form(name='qurl-subscriber', id='qurl-publisher', action='#')
   input(type='hidden', name='service', value='amqp')
   input(type='hidden', name='endpoint', value='subscriber')
 
@@ -30,7 +30,7 @@ form(name='qurl', id='qurl', action='#')
   input(name='binding_key', id='binding_key', value='#')
   br
 
-  input(type='button', id='subscribe', onclick='javascript:qurl_subscribe();', value='Subscribe')
-  input(type='button', id='unsubscribe', onclick='javascript:qurl_unsubscribe();', value='Unsubscribe')
+  input(type='button', id='subscribe', onclick='qurl.subscribe()', value='Subscribe')
+  input(type='button', id='unsubscribe', onclick='qurl.unsubscribe()', value='Unsubscribe')
 
 #output
