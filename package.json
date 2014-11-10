@@ -18,7 +18,7 @@
     "url": "https://github.com/luismreis/qurl.git"
   },
   "dependencies": {
-    "amqp": "~0.2.0",
+    "amqplib": "^0.3.0",
     "body-parser": "^1.9.2",
     "errorhandler": "^1.2.2",
     "express": "~4.10.1",

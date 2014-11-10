@@ -5,16 +5,8 @@ block content
     input(type='hidden', name='service', value='amqp')
     input(type='hidden', name='endpoint', value='publisher')
 
-    label(for='server') Server (hostname:port)
-    input(name='server', id='server', value='localhost')
-    br
-
-    label(for='login') Login
-    input(name='login', id='login', value='guest')
-    br
-
-    label(for='password') Password
-    input(type='password', name='password', id='password', value='guest')
+    label(for='url') Server url (amqp://[user:password@]hostname[:port][/%2F...])
+    input(name='url', id='url', value='amqp://guest:guest@localhost/%2F')
     br
 
     label(for='vhost') VHost
@@ -25,8 +17,8 @@ block content
     input(name='exchange', id='exchange', value='qurl-exchange')
     br
 
-    label(for='routing_key') Routing Key
-    input(name='routing_key', id='routing_key', value='qurl.routing.key')
+    label(for='routingKey') Routing Key
+    input(name='routingKey', id='routingKey', value='qurl.routing.key')
     br
 
     label(for='message') Message

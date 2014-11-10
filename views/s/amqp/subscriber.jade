@@ -5,16 +5,8 @@ block content
     input(type='hidden', name='service', value='amqp')
     input(type='hidden', name='endpoint', value='subscriber')
 
-    label(for='server') Server
-    input(name='server', id='server', value='localhost')
-    br
-
-    label(for='login') Login
-    input(name='login', id='login', value='guest')
-    br
-
-    label(for='password') Password
-    input(type='password', name='password', id='password', value='guest')
+    label(for='url') Server url (amqp://[user:password@]hostname[:port][/%2F...])
+    input(name='url', id='url', value='amqp://guest:guest@localhost/%2F')
     br
 
     label(for='vhost') VHost
@@ -29,11 +21,11 @@ block content
     input(name='queue', id='queue', value='qurl-queue')
     br
 
-    label(for='binding_key') Binding Key
-    input(name='binding_key', id='binding_key', value='#')
+    label(for='bindingKey') Binding Key
+    input(name='bindingKey', id='bindingKey', value='#')
     br
 
-    input(type='button', id='subscribe', onclick='qurl.app.subscribe();', value='Subscribe')
-    input(type='button', id='unsubscribe', onclick='qurl.app.unsubscribe();', value='Unsubscribe')
+    input(type='button', id='subscribe', onclick='qurl.app.subscribe()', value='Subscribe')
+    input(type='button', id='unsubscribe', onclick='qurl.app.unsubscribe()', value='Unsubscribe')
 
   #output
