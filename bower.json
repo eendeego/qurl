@@ -1,0 +1,23 @@
+{
+  "name": "qurl",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/luismreis/qurl",
+  "authors": [
+    "Luis Reis <luis.m.reis@gmail.com>",
+    "Telmo Costa <telmo.ferreira.costa@gmail.com>",
+    "Pedro Carriço <pedro.carrico@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
